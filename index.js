@@ -29,6 +29,7 @@ class Sprite {
             height: 50,
         }
         this.isAttacking
+        this.health = 100
     }
 
     draw() {
@@ -68,7 +69,7 @@ class Sprite {
 
 } 
 
-const player = new Sprite({
+const playerOne = new Sprite({
     position: {
         x: 200,
         y: 0
@@ -83,7 +84,7 @@ const player = new Sprite({
     }
 })
 
-const enemy = new Sprite({
+const playerTwo = new Sprite({
     position: {
         x: 800,
         y: 0
@@ -136,45 +137,47 @@ function animate() {
     window.requestAnimationFrame(animate)
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
-    player.update()
-    enemy.update()
+    playerOne.update()
+    playerTwo.update()
 
-    player.velocity.x = 0;
-    enemy.velocity.x = 0;
+    playerOne.velocity.x = 0;
+    playerTwo.velocity.x = 0;
 
     // player movement
-    if (keys.a.pressed && player.lastKeyPressed === 'a') {
-        player.velocity.x = -(move)
-    } else if (keys.d.pressed && player.lastKeyPressed === 'd') {
-        player.velocity.x = (move)
+    if (keys.a.pressed && playerOne.lastKeyPressed === 'a') {
+        playerOne.velocity.x = -(move)
+    } else if (keys.d.pressed && playerOne.lastKeyPressed === 'd') {
+        playerOne.velocity.x = (move)
     }
     
-    // enemy movement
-    if (keys.ArrowLeft.pressed && enemy.lastKeyPressed === 'ArrowLeft') {
-        enemy.velocity.x = -(move)
-    } else if (keys.ArrowRight.pressed && enemy.lastKeyPressed === 'ArrowRight') {
-        enemy.velocity.x = (move)
+    // playerTwo movement
+    if (keys.ArrowLeft.pressed && playerTwo.lastKeyPressed === 'ArrowLeft') {
+        playerTwo.velocity.x = -(move)
+    } else if (keys.ArrowRight.pressed && playerTwo.lastKeyPressed === 'ArrowRight') {
+        playerTwo.velocity.x = (move)
     }
 
     // collision detection
     if (hitCollision({
-        player1: player,
-        player2: enemy
+        player1: playerOne,
+        player2: playerTwo
     }) &&
-        player.isAttacking)
+        playerOne.isAttacking)
     {
-        player.isAttacking = false
-        console.log('hero slash');
+        playerOne.isAttacking = false
+        playerTwo.health -= 10
+        document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%'
     }
 
     if (hitCollision({
-        player1: enemy,
-        player2: player
+        player1: playerTwo,
+        player2: playerOne
     }) &&
-        enemy.isAttacking)
+        playerTwo.isAttacking)
     {
-        player.isAttacking = false
-        console.log('villian slash');
+        playerTwo.isAttacking = false
+        playerOne.health -= 10
+        document.querySelector('#playerOneHealth').style.width = playerOne.health + '%'
     }
 }
 
@@ -184,32 +187,32 @@ window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'a':
             keys.a.pressed = true;
-            player.lastKeyPressed = 'a';
+            playerOne.lastKeyPressed = 'a';
             break;
         case 'd':
             keys.d.pressed = true;
-            player.lastKeyPressed = 'd';
+            playerOne.lastKeyPressed = 'd';
             break;
         case 'w':
-            player.velocity.y = -(jump);
+            playerOne.velocity.y = -(jump);
             break;
         case ' ':
-            player.attack();
+            playerOne.attack();
             break;
-        // enemy keys
+        // playerTwo keys
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = true;
-            enemy.lastKeyPressed = 'ArrowLeft';
+            playerTwo.lastKeyPressed = 'ArrowLeft';
             break;
         case 'ArrowRight':
             keys.ArrowRight.pressed = true;
-            enemy.lastKeyPressed = 'ArrowRight';
+            playerTwo.lastKeyPressed = 'ArrowRight';
             break;
         case 'ArrowUp':
-            enemy.velocity.y = -(jump);
+            playerTwo.velocity.y = -(jump);
             break;
         case 'Control':
-            enemy.attack();
+            playerTwo.attack();
             break;
     }
     console.log(event.key);
@@ -226,7 +229,7 @@ window.addEventListener('keyup', (event) => {
         case 'w':
             keys.d.pressed = false;
             break
-        // enemy case
+        // playerTwo keys
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = false;
             break;

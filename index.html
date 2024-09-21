@@ -5,11 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>js fighting game</title>
     <link rel="shortcut icon" href="#">
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-    <canvas></canvas>
+    <div style="position: relative; display: inline-block;">
+        <div style="position: absolute; display: flex; width: 100%; align-items: center; padding: 25px;">
+            <!-- player1 health -->
+            <div style="position: relative; height: 50px; width: 100%; display: flex; justify-content: flex-end;">
+                <div style="background-color: yellow; height: 50px; width: 100%;"></div>
+                <div id="playerOneHealth" style="
+                position: absolute;
+                background: green;
+                top: 0; 
+                bottom: 0; 
+                right: 0;
+                width: 100%;"></div>
+            </div>
+            <!-- timer -->
+            <div style="border: 5px solid white; height: 75px; width: 75px; flex-shrink: 0;"></div>
+            <!-- player2 health -->
+            <div style="position: relative; height: 50px; width: 100%;">
+                <div style="background-color: yellow; height: 50px;"></div>
+                <div id="playerTwoHealth" style="
+                position: absolute;
+                background: green;
+                top: 0; 
+                bottom: 0; 
+                left: 0; 
+                right: 0;"></div>
+            </div>
+        </div>
+        <canvas></canvas>
+    </div>
+    <script src="index.js"></script>
 </body>
 </html>
 
-
-<script src="index.js"></script>
