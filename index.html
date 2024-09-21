@@ -26,8 +26,20 @@
                 right: 0;
                 width: 100%;"></div>
             </div>
+
             <!-- timer -->
-            <div style="border: 5px solid white; height: 75px; width: 75px; flex-shrink: 0;"></div>
+            <div id="timer" 
+                style="
+                    border: 5px solid white; 
+                    height: 75px; 
+                    width: 75px; 
+                    flex-shrink: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;">
+            </div>
+
             <!-- player2 health -->
             <div style="position: relative; height: 50px; width: 100%;">
                 <div style="background-color: yellow; height: 50px;"></div>
@@ -39,6 +51,20 @@
                 left: 0; 
                 right: 0;"></div>
             </div>
+        </div>
+        <div 
+            id="displayResult"
+            style="
+                position: absolute; 
+                color: white; 
+                display: none; 
+                justify-content: center; 
+                align-items: center;
+                top: 0; 
+                bottom: 0;
+                left: 0; 
+                right: 0;">
+            Draw
         </div>
         <canvas></canvas>
     </div>
