@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, imageSrc, scale = 1, framesMax = 1}) {
+    constructor({position, imageSrc, scale = 1, framesMax = 1, offset = {x: 0, y: 0}}) {
         this.position = position
         this.height = 150
         this.width = 50
@@ -10,6 +10,7 @@ class Sprite {
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 10
+        this.offset = offset
     }
 
     draw() {
@@ -19,14 +20,14 @@ class Sprite {
             0,
             this.image.width / this.framesMax,
             this.image.height,
-            this.position.x,
-            this.position.y,
+            this.position.x - this.offset.x,
+            this.position.y - this.offset.y,
             (this.image.width / this.framesMax) * this.scale,
-            this.image.height * this.scale,);
+            this.image.height * this.scale
+        )
     }
 
-    update() {
-        this.draw();
+    animateFrames() {
         this.framesElapsed++; //count for total frames elapsed
 
         if (this.framesElapsed % this.framesHold === 0) { //slow down animation by framehold
@@ -37,11 +38,31 @@ class Sprite {
             }
         }
     }
+
+    update() {
+        this.draw();
+        this.animateFrames()
+    }
 } 
 
-class Fighter {
-    constructor({position, velocity, colour = 'red', offset}) {
-        this.position = position
+class Fighter extends Sprite {
+    constructor({
+        position,
+        velocity,
+        colour = 'red',
+        imageSrc,
+        scale = 1,
+        framesMax = 1,
+        offset = {x: 0, y: 0}
+    }){
+        super({
+            position,
+            imageSrc,
+            scale,
+            framesMax,
+            offset
+        })
+
         this.velocity = velocity
         this.height = 150
         this.width = 50
@@ -58,23 +79,15 @@ class Fighter {
         }
         this.isAttacking
         this.health = 100
-    }
-
-    draw() {
-        // draw the sprite
-        ctx.fillStyle = this.colour;
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height); 
-
-        // hit box
-        if (this.isAttacking) {
-            ctx.fillStyle = 'blue';
-            ctx.fillRect(this.hitBox.position.x, this.hitBox.position.y, this.hitBox.width, this.hitBox.height);
-        }
-
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 10
     }
 
     update() {
         this.draw();
+        this.animateFrames();
+        
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 

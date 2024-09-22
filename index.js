@@ -7,9 +7,9 @@ canvas.height = 576;
 
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-const gravity = 0.7;
-const jump = 20;
-const move = 5;
+const gravity = 0.5;
+const jump = 12;
+const move = 4;
 
 const background = new Sprite({
     position: {
@@ -26,7 +26,7 @@ const shop = new Sprite({
     },
     imageSrc: './img/shop.png',
     scale: 2.5,
-    framesMax: 6
+    framesMax: 6,
 })
 
 const playerOne = new Fighter({
@@ -41,6 +41,13 @@ const playerOne = new Fighter({
     offset: {
         x: 0,
         y: 0
+    },
+    imageSrc: './img/samuraiMack/Idle.png',
+    framesMax: 8,
+    scale: 2,
+    offset: {
+        x: 215,
+        y: 93
     }
 })
 
@@ -58,6 +65,8 @@ const playerTwo = new Fighter({
         x: -50,
         y: 0
     }
+    // imageSrc: './img/samuraiMack/Idle.png',
+    // framesMax: 8
 
 })
 
@@ -91,7 +100,7 @@ function animate() {
     background.update()
     shop.update()
     playerOne.update()
-    playerTwo.update()
+    // playerTwo.update()
 
     playerOne.velocity.x = 0;
     playerTwo.velocity.x = 0;
