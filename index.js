@@ -7,9 +7,9 @@ canvas.height = 576;
 
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-const gravity = 0.5;
-const jump = 12;
-const move = 4;
+const gravity = .3;
+const jump = 10;
+const move = 3;
 
 const background = new Sprite({
     position: {
@@ -48,6 +48,34 @@ const playerOne = new Fighter({
     offset: {
         x: 215,
         y: 93
+    },
+    sprites: {
+        idle: {
+            imageSrc: './img/samuraiMack/Idle.png',
+            framesMax: 8
+        },
+        run: {
+            imageSrc: './img/samuraiMack/Run.png',
+            framesMax: 8
+        },
+        takeHit: {
+            imageSrc: './img/samuraiMack/Take Hit.png',
+            framesMax: 4
+        },
+        jump: {
+            imageSrc: './img/samuraiMack/Jump.png',
+            framesMax: 2
+        },
+        fall: {
+            imageSrc: './img/samuraiMack/Fall.png',
+            framesMax: 2
+        },
+        attack1: {
+            imageSrc: './img/samuraiMack/Attack1.png',
+            framesMax: 6
+        },
+
+        
     }
 })
 
@@ -108,9 +136,20 @@ function animate() {
     // player movement
     if (keys.a.pressed && playerOne.lastKeyPressed === 'a') {
         playerOne.velocity.x = -(move)
+        playerOne.switchSprite('takeHit')
     } else if (keys.d.pressed && playerOne.lastKeyPressed === 'd') {
         playerOne.velocity.x = (move)
+        playerOne.switchSprite('run')
+    } else {
+        playerOne.switchSprite('idle')    
     }
+
+    if (playerOne.velocity.y < 0) {
+        playerOne.switchSprite('jump')
+    } else if (playerOne.velocity.y > 0) {
+        playerOne.switchSprite('fall')
+    }
+
     
     // playerTwo movement
     if (keys.ArrowLeft.pressed && playerTwo.lastKeyPressed === 'ArrowLeft') {
