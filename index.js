@@ -38,16 +38,12 @@ const playerOne = new Fighter({
         x: 0,
         y: 0
     },
-    offset: {
-        x: 0,
-        y: 0
-    },
     imageSrc: './img/samuraiMack/Idle.png',
     framesMax: 8,
     scale: 2,
     offset: {
-        x: 215,
-        y: 93
+        x: 170,
+        y: 143
     },
     sprites: {
         idle: {
@@ -73,9 +69,15 @@ const playerOne = new Fighter({
         attack1: {
             imageSrc: './img/samuraiMack/Attack1.png',
             framesMax: 6
+        },  
+    },
+    hitBox: {
+        offset: {
+            x: 50,
+            y: -30
         },
-
-        
+        width: 150,
+        height: 130
     }
 })
 
@@ -89,12 +91,47 @@ const playerTwo = new Fighter({
         y: 0
     },
     colour: 'green',
+    imageSrc: './img/kenji/Idle.png',
+    framesMax: 4,
+    scale: 2,
     offset: {
-        x: -50,
-        y: 0
+        x: 180,
+        y: 156
+    },
+    sprites: {
+        idle: {
+            imageSrc: './img/kenji/Idle.png',
+            framesMax: 4
+        },
+        run: {
+            imageSrc: './img/kenji/Run.png',
+            framesMax: 8
+        },
+        takeHit: {
+            imageSrc: './img/kenji/Take Hit.png',
+            framesMax: 3
+        },
+        jump: {
+            imageSrc: './img/kenji/Jump.png',
+            framesMax: 2
+        },
+        fall: {
+            imageSrc: './img/kenji/Fall.png',
+            framesMax: 2
+        },
+        attack1: {
+            imageSrc: './img/kenji/Attack1.png',
+            framesMax: 4
+        },  
+    },
+    hitBox: {
+        offset: {
+            x: -150,
+            y: -20
+        },
+        width: 150,
+        height: 120
     }
-    // imageSrc: './img/samuraiMack/Idle.png',
-    // framesMax: 8
 
 })
 
@@ -128,12 +165,12 @@ function animate() {
     background.update()
     shop.update()
     playerOne.update()
-    // playerTwo.update()
+    playerTwo.update()
 
     playerOne.velocity.x = 0;
     playerTwo.velocity.x = 0;
 
-    // player movement
+    // playerOne movement
     if (keys.a.pressed && playerOne.lastKeyPressed === 'a') {
         playerOne.velocity.x = -(move)
         playerOne.switchSprite('takeHit')
@@ -144,41 +181,61 @@ function animate() {
         playerOne.switchSprite('idle')    
     }
 
+    // playerOne jumping
     if (playerOne.velocity.y < 0) {
         playerOne.switchSprite('jump')
     } else if (playerOne.velocity.y > 0) {
         playerOne.switchSprite('fall')
     }
-
     
     // playerTwo movement
     if (keys.ArrowLeft.pressed && playerTwo.lastKeyPressed === 'ArrowLeft') {
         playerTwo.velocity.x = -(move)
+        playerTwo.switchSprite('run')
     } else if (keys.ArrowRight.pressed && playerTwo.lastKeyPressed === 'ArrowRight') {
         playerTwo.velocity.x = (move)
+        playerTwo.switchSprite('takeHit')
+     } else {
+        playerTwo.switchSprite('idle')    
     }
 
-    // collision detection
+    // playerTwo jumping 
+    if (playerTwo.velocity.y < 0) {
+        playerTwo.switchSprite('jump')
+    } else if (playerTwo.velocity.y > 0) {
+        playerTwo.switchSprite('fall')
+    }
+
+    // collision detection p1
     if (hitCollision({
         player1: playerOne,
         player2: playerTwo
-    }) &&
-        playerOne.isAttacking)
+    })
+        && playerOne.isAttacking && playerOne.framesCurrent === 4)
     {
         playerOne.isAttacking = false
         playerTwo.health -= 10
         document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%'
     }
 
+    if (playerOne.isAttacking && playerOne.framesCurrent === 4) {
+        playerOne.isAttacking = false
+    }
+    
+    // collision detection p2
     if (hitCollision({
         player1: playerTwo,
         player2: playerOne
-    }) &&
-        playerTwo.isAttacking)
+    })
+        && playerTwo.isAttacking && playerTwo.framesCurrent === 2)
     {
         playerTwo.isAttacking = false
-        playerOne.health -= 10
+        playerOne.health -= 5
         document.querySelector('#playerOneHealth').style.width = playerOne.health + '%'
+    }
+
+    if (playerTwo.isAttacking && playerTwo.framesCurrent === 2) {
+        playerTwo.isAttacking = false
     }
 
     // end game if health drops to 0

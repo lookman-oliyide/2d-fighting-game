@@ -9,7 +9,7 @@ class Sprite {
         this.framesMax = framesMax
         this.framesCurrent = 0
         this.framesElapsed = 0
-        this.framesHold = 10
+        this.framesHold = 20
         this.offset = offset
     }
 
@@ -54,7 +54,12 @@ class Fighter extends Sprite {
         scale = 1,
         framesMax = 1,
         offset = { x: 0, y: 0 },
-        sprites
+        sprites,
+        hitBox = {
+            offset: {},
+            width: undefined,
+            height: undefined
+        }
     }){
         super({
             position,
@@ -65,7 +70,7 @@ class Fighter extends Sprite {
         })
 
         this.velocity = velocity
-        this.height = 150
+        this.height = 100
         this.width = 50
         this.lastKeyPressed
         this.colour = colour
@@ -74,9 +79,9 @@ class Fighter extends Sprite {
                 x: this.position.x,
                 y: this.position.y
             },
-            offset,
-            width: 100,
-            height: 50,
+            offset: hitBox.offset,
+            width: hitBox.width,
+            height: hitBox.height,
         }
         this.isAttacking
         this.health = 100
@@ -99,13 +104,19 @@ class Fighter extends Sprite {
         
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-
+        
+        
         this.hitBox.position.x = this.position.x + this.hitBox.offset.x
-        this.hitBox.position.y = this.position.y
+        this.hitBox.position.y = this.position.y + this.hitBox.offset.y
+        
+        // ctx.fillStyle = 'red'
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'black'
+        // ctx.fillRect(this.hitBox.position.x, this.hitBox.position.y, this.hitBox.width, this.hitBox.height)
         
         if (this.position.y + this.height + this.velocity.y >= canvas.height - 94) {
             this.velocity.y = 0//set sprite to fall until it reaches ground level
-            this.position.y = 332
+            // this.position.y = 332
         } else {
             this.velocity.y += gravity//apply gravity to sprite
         }
@@ -114,9 +125,6 @@ class Fighter extends Sprite {
     attack() {
         this.switchSprite('attack1')
         this.isAttacking = true;
-        setTimeout(() => {
-            this.isAttacking = false;
-        }, 100) // set isAttacking back to false after 100ms
     }
 
     switchSprite(sprite) {
