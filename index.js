@@ -54,7 +54,7 @@ const playerOne = new Fighter({
             imageSrc: './img/samuraiMack/Run.png',
             framesMax: 8
         },
-        takeHit: {
+        retreat: {
             imageSrc: './img/samuraiMack/Take Hit.png',
             framesMax: 4
         },
@@ -69,7 +69,11 @@ const playerOne = new Fighter({
         attack1: {
             imageSrc: './img/samuraiMack/Attack1.png',
             framesMax: 6
-        },  
+        }, 
+        takeHit: {
+            imageSrc: './img/samuraiMack/Take Hit - white silhouette.png',
+            framesMax: 4
+        },
     },
     hitBox: {
         offset: {
@@ -78,7 +82,7 @@ const playerOne = new Fighter({
         },
         width: 150,
         height: 130
-    }
+    },
 })
 
 const playerTwo = new Fighter({
@@ -107,9 +111,9 @@ const playerTwo = new Fighter({
             imageSrc: './img/kenji/Run.png',
             framesMax: 8
         },
-        takeHit: {
-            imageSrc: './img/kenji/Take Hit.png',
-            framesMax: 3
+        retreat: {
+            imageSrc: './img/kenji/run.png',
+            framesMax: 8
         },
         jump: {
             imageSrc: './img/kenji/Jump.png',
@@ -122,7 +126,11 @@ const playerTwo = new Fighter({
         attack1: {
             imageSrc: './img/kenji/Attack1.png',
             framesMax: 4
-        },  
+        },
+        takeHit: {
+            imageSrc: './img/kenji/Take Hit.png',
+            framesMax: 3
+        }
     },
     hitBox: {
         offset: {
@@ -173,7 +181,7 @@ function animate() {
     // playerOne movement
     if (keys.a.pressed && playerOne.lastKeyPressed === 'a') {
         playerOne.velocity.x = -(move)
-        playerOne.switchSprite('takeHit')
+        playerOne.switchSprite('retreat')
     } else if (keys.d.pressed && playerOne.lastKeyPressed === 'd') {
         playerOne.velocity.x = (move)
         playerOne.switchSprite('run')
@@ -194,7 +202,7 @@ function animate() {
         playerTwo.switchSprite('run')
     } else if (keys.ArrowRight.pressed && playerTwo.lastKeyPressed === 'ArrowRight') {
         playerTwo.velocity.x = (move)
-        playerTwo.switchSprite('takeHit')
+        playerTwo.switchSprite('retreat')
      } else {
         playerTwo.switchSprite('idle')    
     }
@@ -214,7 +222,8 @@ function animate() {
         && playerOne.isAttacking && playerOne.framesCurrent === 4)
     {
         playerOne.isAttacking = false
-        playerTwo.health -= 10
+        playerTwo.takeHit()
+        playerTwo.health -= 10;
         document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%'
     }
 
@@ -230,6 +239,7 @@ function animate() {
         && playerTwo.isAttacking && playerTwo.framesCurrent === 2)
     {
         playerTwo.isAttacking = false
+        playerOne.takeHit()
         playerOne.health -= 5
         document.querySelector('#playerOneHealth').style.width = playerOne.health + '%'
     }
