@@ -74,6 +74,10 @@ const playerOne = new Fighter({
             imageSrc: './img/samuraiMack/Take Hit - white silhouette.png',
             framesMax: 4
         },
+        death: {
+            imageSrc: './img/samuraiMack/Death.png',
+            framesMax: 6
+        }
     },
     hitBox: {
         offset: {
@@ -130,6 +134,10 @@ const playerTwo = new Fighter({
         takeHit: {
             imageSrc: './img/kenji/Take Hit.png',
             framesMax: 3
+        },
+        death: {
+            imageSrc: './img/kenji/Death.png',
+            framesMax: 7
         }
     },
     hitBox: {
@@ -223,7 +231,6 @@ function animate() {
     {
         playerOne.isAttacking = false
         playerTwo.takeHit()
-        playerTwo.health -= 10;
         document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%'
     }
 
@@ -240,7 +247,6 @@ function animate() {
     {
         playerTwo.isAttacking = false
         playerOne.takeHit()
-        playerOne.health -= 5
         document.querySelector('#playerOneHealth').style.width = playerOne.health + '%'
     }
 
@@ -257,37 +263,45 @@ function animate() {
 animate()
 
 window.addEventListener('keydown', (event) => {
-    switch (event.key) {
-        case 'a':
-            keys.a.pressed = true;
-            playerOne.lastKeyPressed = 'a';
-            break;
-        case 'd':
-            keys.d.pressed = true;
-            playerOne.lastKeyPressed = 'd';
-            break;
-        case 'w':
-            playerOne.velocity.y = -(jump);
-            break;
-        case ' ':
-            playerOne.attack();
-            break;
-        // playerTwo keys
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = true;
-            playerTwo.lastKeyPressed = 'ArrowLeft';
-            break;
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = true;
-            playerTwo.lastKeyPressed = 'ArrowRight';
-            break;
-        case 'ArrowUp':
-            playerTwo.velocity.y = -(jump);
-            break;
-        case 'Control':
-            playerTwo.attack();
-            break;
+    if (!playerOne.isDead) {
+        switch (event.key) {
+            case 'a':
+                keys.a.pressed = true;
+                playerOne.lastKeyPressed = 'a';
+                break;
+            case 'd':
+                keys.d.pressed = true;
+                playerOne.lastKeyPressed = 'd';
+                break;
+            case 'w':
+                playerOne.velocity.y = -(jump);
+                break;
+            case ' ':
+                playerOne.attack();
+                break;
+        }
     }
+
+    if (!playerTwo.isDead) {
+        // playerTwo keys
+        switch (event.key) {
+            case 'ArrowLeft':
+                keys.ArrowLeft.pressed = true;
+                playerTwo.lastKeyPressed = 'ArrowLeft';
+                break;
+            case 'ArrowRight':
+                keys.ArrowRight.pressed = true;
+                playerTwo.lastKeyPressed = 'ArrowRight';
+                break;
+            case 'ArrowUp':
+                playerTwo.velocity.y = -(jump);
+                break;
+            case 'Control':
+                playerTwo.attack();
+                break;
+        }
+    }
+    
     console.log(event.key);
 })
 
