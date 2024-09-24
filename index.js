@@ -180,6 +180,8 @@ function animate() {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
     shop.update()
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
     playerOne.update()
     playerTwo.update()
 
@@ -231,7 +233,10 @@ function animate() {
     {
         playerOne.isAttacking = false
         playerTwo.takeHit()
-        document.querySelector('#playerTwoHealth').style.width = playerTwo.health + '%'
+        
+        gsap.to('#playerTwoHealth', {
+            width: playerTwo.health + '%'
+        })
     }
 
     if (playerOne.isAttacking && playerOne.framesCurrent === 4) {
@@ -247,7 +252,10 @@ function animate() {
     {
         playerTwo.isAttacking = false
         playerOne.takeHit()
-        document.querySelector('#playerOneHealth').style.width = playerOne.health + '%'
+
+        gsap.to('#playerOneHealth', {
+            width: playerOne.health + '%'
+        })
     }
 
     if (playerTwo.isAttacking && playerTwo.framesCurrent === 2) {

@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>js fighting game</title>
     <link rel="shortcut icon" href="#">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             box-sizing: border-box;
+            font-family: "Press Start 2P", system-ui;
+            font-weight: 400;
+            font-style: normal;
         }
     </style>
 </head>
@@ -16,11 +22,11 @@
     <div style="position: relative; display: inline-block;">
         <div style="position: absolute; display: flex; width: 100%; align-items: center; padding: 25px;">
             <!-- player1 health -->
-            <div style="position: relative; height: 50px; width: 100%; display: flex; justify-content: flex-end;">
-                <div style="background-color: red; height: 50px; width: 100%;"></div>
+            <div style="position: relative; height: 50px; width: 100%; display: flex; justify-content: flex-end; border: 5px solid #C4B5FD; border-right: 0;">
+                <div style="background: linear-gradient(to left, red, yellow); height: 100%; width: 100%;"></div>
                 <div id="playerOneHealth" style="
                 position: absolute;
-                background: green;
+                background: #8B5CF6;
                 top: 0; 
                 bottom: 0; 
                 right: 0;
@@ -30,10 +36,11 @@
             <!-- timer -->
             <div id="timer" 
                 style="
-                    border: 5px solid white; 
+                    border: 5px solid #C4B5FD; 
                     height: 75px; 
                     width: 75px; 
                     flex-shrink: 0;
+                    font-size: .75em;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -41,11 +48,11 @@
             </div>
 
             <!-- player2 health -->
-            <div style="position: relative; height: 50px; width: 100%;">
-                <div style="background-color: red; height: 50px;"></div>
+            <div style="position: relative; height: 50px; width: 100%; border: 5px solid #C4B5FD; border-left: 0;">
+                <div style="background: linear-gradient(to right, red, yellow); height: 100%;"></div>
                 <div id="playerTwoHealth" style="
                 position: absolute;
-                background: green;
+                background: #8B5CF6;
                 top: 0; 
                 bottom: 0; 
                 left: 0; 
@@ -68,6 +75,12 @@
         </div>
         <canvas></canvas>
     </div>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" 
+        integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"
+    ></script>
     <script src="js/utils.js"></script>
     <script src="js/classes.js"></script>
     <script src="index.js"></script>

@@ -15,7 +15,7 @@ function determineWinner({ playerOne, playerTwo, timerId }) {
     } else if (playerOne.health > playerTwo.health) {
         document.querySelector('#displayResult').innerHTML = 'P1 Wins!';
     } else if (playerOne.health < playerTwo.health) {
-        document.querySelector('#displayResult').innerHTML = 'P2 Wins';
+        document.querySelector('#displayResult').innerHTML = 'P2 Wins!';
     }
 }
 
