@@ -7,6 +7,12 @@ A simple multiplayer fighting game where two characters battle each other. Each 
 - **Simple controls**: Players can move backward, forward, jump, and attack.
 - **Health system**: Each character has a health bar that depletes when hit by the opponent. The first player to reduce their opponent's health to zero wins.
 
+## Play the Game Online
+
+The game is hosted on [Netlify](https://www.netlify.com/). You can play it online by visiting the following link:
+
+**[Play the Multiplayer Fighting Game here](https://builddojo-2d-fighting-game.netlify.app/)**
+
 ## Gameplay
 - **Player 1 Controls**:
   - Move Left: `A`
